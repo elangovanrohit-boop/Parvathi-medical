@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Parvathi Medical — Your Health. Our Priority.</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Sora:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --bg:#0A1412;
+    --bg-alt:#0E1B19;
+    --surface:#122320;
+    --ink:#EAF4F1;
+    --ink-soft:#93AEA8;
+    --mint:#38D69C;
+    --mint-dim:#1D4A3B;
+    --amber:#FBC24B;
+    --line:rgba(255,255,255,0.09);
+    --max:1140px;
+    --font-display:"Sora", system-ui, sans-serif;
+    --font-body:"Public Sans", system-ui, sans-serif;
+  }
+  *{box-sizing:border-box;}
+  html{scroll-behavior:smooth;}
+  body{
+    margin:0;background:var(--bg);color:var(--ink);
+    font-family:var(--font-body);line-height:1.55;
+    -webkit-font-smoothing:antialiased;overflow-x:hidden;
+  }
+  a{color:inherit;text-decoration:none;}
+  img,svg{display:block;max-width:100%;}
+  .wrap{max-width:var(--max);margin:0 auto;padding:0 28px;}
+  @media (max-width:640px){.wrap{padding:0 20px;}}
+  a:focus-visible,button:focus-visible{outline:3px solid var(--mint);outline-offset:3px;border-radius:6px;}
+  h1,h2,h3,h4{font-family:var(--font-display);letter-spacing:-0.01em;margin:0;}
+  section{position:relative;}
+
+  @media (prefers-reduced-motion: reduce){
+    *{animation:none !important;transition:none !important;}
+    .reveal{opacity:1 !important;transform:none !important;}
+  }
+
+  /* ---------- scroll reveal ---------- */
+  .reveal{opacity:0;transform:translateY(22px);transition:opacity .7s ease, transform .7s ease;}
+  .reveal.in{opacity:1;transform:translateY(0);}
+  .reveal-stagger > *{opacity:0;transform:translateY(18px);transition:opacity .6s ease, transform .6s ease;}
+  .reveal-stagger.in > *{opacity:1;transform:translateY(0);}
+  .reveal-stagger.in > *:nth-child(1){transition-delay:.02s;}
+  .reveal-stagger.in > *:nth-child(2){transition-delay:.09s;}
+  .reveal-stagger.in > *:nth-child(3){transition-delay:.16s;}
+  .reveal-stagger.in > *:nth-child(4){transition-delay:.23s;}
+  .reveal-stagger.in > *:nth-child(5){transition-delay:.30s;}
+  .reveal-stagger.in > *:nth-child(6){transition-delay:.37s;}
+
+  /* ---------- background ambience ---------- */
+  .glow{position:absolute;border-radius:50%;filter:blur(90px);opacity:.28;pointer-events:none;z-index:0;}
+  @keyframes drift{
+    0%,100%{transform:translate(0,0) scale(1);}
+    50%{transform:translate(30px,-24px) scale(1.08);}
+  }
+  .glow-mint{background:var(--mint);width:420px;height:420px;top:-140px;right:-120px;animation:drift 14s ease-in-out infinite;}
+  .glow-amber{background:var(--amber);width:340px;height:340px;bottom:-120px;left:-100px;animation:drift 17s ease-in-out infinite reverse;opacity:.14;}
+
+  /* ---------- NAV ---------- */
+  header.site{
+    position:sticky;top:0;z-index:50;
+    background:rgba(10,20,18,0.78);
+    backdrop-filter:blur(10px);
+    border-bottom:1px solid var(--line);
+  }
+  .nav{display:flex;align-items:center;justify-content:space-between;padding:16px 0;}
+  .brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:1.05rem;}
+  .brand .mark{width:32px;height:32px;flex-shrink:0;}
+  .nav-links{display:flex;gap:26px;font-size:0.92rem;color:var(--ink-soft);font-weight:500;}
+  .nav-links a{transition:color .2s;}
+  .nav-links a:hover{color:var(--mint);}
+  .nav-cta{
+    display:flex;align-items:center;gap:8px;
+    background:var(--mint);color:#052A1E;padding:10px 20px;border-radius:999px;
+    font-weight:700;font-size:0.9rem;white-space:nowrap;transition:transform .2s, box-shadow .2s;
+  }
+  .nav-cta:hover{transform:translateY(-2px);box-shadow:0 8px 24px -8px rgba(56,214,156,0.5);}
+  @media (max-width:780px){.nav-links{display:none;}}
+
+  /* pulse dot for "open" indicator */
+  .pulse-dot{position:relative;width:8px;height:8px;border-radius:50%;background:var(--mint);flex-shrink:0;}
+  .pulse-dot::after{
+    content:"";position:absolute;inset:-6px;border-radius:50%;border:1.5px solid var(--mint);
+    animation:pulse-ring 1.8s ease-out infinite;
+  }
+  @keyframes pulse-ring{0%{transform:scale(0.6);opacity:.9;}100%{transform:scale(2.1);opacity:0;}}
+
+  /* ---------- HERO ---------- */
+  .hero{padding:76px 0 50px;overflow:hidden;}
+  .hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:48px;align-items:center;position:relative;z-index:1;}
+  @media (max-width:900px){.hero-grid{grid-template-columns:1fr;}}
+  .eyebrow-line{display:flex;align-items:center;gap:10px;color:var(--mint);font-weight:600;font-size:0.88rem;margin-bottom:20px;}
+  h1{font-size:clamp(2.2rem,4.4vw,3.3rem);line-height:1.1;margin-bottom:20px;font-weight:800;max-width:13ch;}
+  h1 .accent{color:var(--mint);}
+  .hero p.lede{font-size:1.08rem;color:var(--ink-soft);max-width:44ch;margin:0 0 28px;}
+
+  .badge-row{display:flex;gap:10px;flex-wrap:wrap;margin-bottom:32px;}
+  .badge{
+    font-size:0.82rem;font-weight:600;color:var(--ink);
+    border:1px solid var(--line);padding:8px 14px;border-radius:999px;
+    background:var(--surface);
+  }
+
+  .hero-ctas{display:flex;gap:14px;flex-wrap:wrap;}
+  .btn-primary{
+    display:inline-flex;align-items:center;gap:8px;
+    background:var(--mint);color:#052A1E;padding:15px 28px;border-radius:999px;
+    font-weight:700;font-size:0.98rem;border:none;cursor:pointer;transition:transform .2s, box-shadow .2s;
+  }
+  .btn-primary:hover{transform:translateY(-2px);box-shadow:0 10px 28px -10px rgba(56,214,156,0.55);}
+  .btn-secondary{
+    display:inline-flex;align-items:center;gap:8px;
+    background:transparent;color:var(--ink);padding:15px 28px;border-radius:999px;
+    font-weight:600;font-size:0.98rem;border:1.5px solid var(--line);cursor:pointer;transition:border-color .2s, transform .2s;
+  }
+  .btn-secondary:hover{border-color:var(--mint);transform:translateY(-2px);}
+
+  /* EKG visual */
+  .hero-visual{position:relative;z-index:1;}
+  .ekg-card{
+    background:linear-gradient(180deg, var(--surface), var(--bg-alt));
+    border:1px solid var(--line);border-radius:26px;padding:28px 22px 12px;
+    box-shadow:0 30px 60px -30px rgba(0,0,0,0.6);
+  }
+  .ekg-card .top-row{display:flex;justify-content:space-between;align-items:center;margin-bottom:18px;}
+  .ekg-card .top-row .label{font-size:0.8rem;color:var(--ink-soft);}
+  .ekg-card .top-row .live{display:flex;align-items:center;gap:8px;font-size:0.78rem;color:var(--mint);font-weight:700;}
+  #ekg-path{
+    stroke-dasharray:1000;stroke-dashoffset:1000;
+    animation:draw 3.4s linear infinite;
+  }
+  @keyframes draw{
+    0%{stroke-dashoffset:1000;}
+    60%{stroke-dashoffset:0;}
+    100%{stroke-dashoffset:-1000;}
+  }
+  .ekg-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:0;border-top:1px solid var(--line);margin-top:6px;}
+  .ekg-stats div{padding:16px 10px;text-align:center;border-right:1px solid var(--line);}
+  .ekg-stats div:last-child{border-right:none;}
+  .ekg-stats b{display:block;font-family:var(--font-display);font-size:1.3rem;color:var(--mint);}
+  .ekg-stats span{font-size:0.75rem;color:var(--ink-soft);}
+
+  /* ---------- SECTION HEAD ---------- */
+  .section-head{max-width:56ch;margin-bottom:44px;}
+  .section-head .label{color:var(--mint);font-weight:600;font-size:0.88rem;margin-bottom:10px;}
+  .section-head h2{font-size:clamp(1.6rem,3vw,2.25rem);margin-bottom:12px;font-weight:800;}
+  .section-head p{color:var(--ink-soft);margin:0;font-size:1.02rem;}
+
+  /* ---------- FEATURE GRID (healthcare made simple) ---------- */
+  .features{padding:84px 0;}
+  .feature-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);border:1px solid var(--line);border-radius:20px;overflow:hidden;}
+  @media (max-width:900px){.feature-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:520px){.feature-grid{grid-template-columns:1fr;}}
+  .feature{background:var(--surface);padding:30px 24px;transition:background .25s;}
+  .feature:hover{background:var(--bg-alt);}
+  .feature .icon{
+    width:42px;height:42px;border-radius:12px;background:var(--mint-dim);
+    display:flex;align-items:center;justify-content:center;margin-bottom:16px;
+    color:var(--mint);
+  }
+  .feature .icon svg{width:22px;height:22px;}
+  .feature h3{font-size:1.02rem;margin-bottom:8px;font-weight:700;}
+  .feature p{margin:0;font-size:0.9rem;color:var(--ink-soft);}
+
+  /* ---------- OFFERS ---------- */
+  .offers{padding:20px 0 84px;}
+  .offer-grid{display:grid;grid-template-columns:1fr 1fr;gap:22px;}
+  @media (max-width:760px){.offer-grid{grid-template-columns:1fr;}}
+  .offer-card{
+    position:relative;border-radius:26px;padding:36px 32px;
+    background:radial-gradient(120% 140% at 0% 0%, rgba(251,194,75,0.14), transparent 55%), var(--surface);
+    border:1px solid var(--line);overflow:hidden;
+    transition:transform .3s ease, border-color .3s ease;
+  }
+  .offer-card:hover{transform:translateY(-4px);border-color:rgba(251,194,75,0.4);}
+  .offer-card .threshold{font-size:0.86rem;color:var(--ink-soft);font-weight:600;margin-bottom:6px;}
+  .offer-card .pct{
+    font-family:var(--font-display);font-weight:800;color:var(--amber);
+    font-size:clamp(2.4rem,5vw,3.4rem);line-height:1;margin-bottom:10px;
+  }
+  .offer-card p.note{color:var(--ink-soft);font-size:0.9rem;margin:0;}
+  .offer-card .ring{position:absolute;right:-40px;top:-40px;width:140px;height:140px;border-radius:50%;border:1px solid rgba(251,194,75,0.25);}
+
+  /* ---------- WHY US ---------- */
+  .why{padding:84px 0;background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .why-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:28px 32px;}
+  @media (max-width:860px){.why-grid{grid-template-columns:1fr 1fr;}}
+  @media (max-width:520px){.why-grid{grid-template-columns:1fr;}}
+  .why-item{display:flex;gap:14px;align-items:flex-start;}
+  .why-item .dot{
+    width:38px;height:38px;border-radius:11px;background:var(--surface);border:1px solid var(--line);
+    display:flex;align-items:center;justify-content:center;flex-shrink:0;color:var(--mint);
+  }
+  .why-item .dot svg{width:19px;height:19px;}
+  .why-item h4{font-size:0.98rem;margin-bottom:5px;font-weight:700;}
+  .why-item p{margin:0;font-size:0.88rem;color:var(--ink-soft);}
+
+  /* ---------- STEPS (order + how it works merged) ---------- */
+  .process{padding:88px 0;}
+  .steps{display:grid;grid-template-columns:repeat(4,1fr);gap:0;position:relative;}
+  @media (max-width:860px){.steps{grid-template-columns:1fr;gap:30px;}}
+  .step{position:relative;padding-right:22px;}
+  .step:not(:last-child)::after{
+    content:"";position:absolute;top:22px;right:0;width:100%;height:1.5px;
+    background:linear-gradient(90deg, var(--mint-dim), transparent);
+  }
+  @media (max-width:860px){.step:not(:last-child)::after{display:none;}}
+  .step .num{
+    width:44px;height:44px;border-radius:50%;background:var(--mint);color:#052A1E;
+    display:flex;align-items:center;justify-content:center;font-weight:800;font-size:1rem;
+    margin-bottom:18px;position:relative;z-index:1;font-family:var(--font-display);
+  }
+  .step h4{font-size:1.02rem;margin-bottom:8px;font-weight:700;}
+  .step p{margin:0;font-size:0.9rem;color:var(--ink-soft);max-width:26ch;}
+  .process-cta{margin-top:44px;display:flex;align-items:center;gap:16px;flex-wrap:wrap;}
+  .process-cta small{color:var(--ink-soft);font-size:0.84rem;}
+
+  /* ---------- HEALTH CHECKS BAND ---------- */
+  .checks{padding:70px 0;}
+  .checks-card{
+    display:grid;grid-template-columns:1fr 1fr 1fr;gap:1px;background:var(--line);
+    border:1px solid var(--line);border-radius:24px;overflow:hidden;
+  }
+  @media (max-width:760px){.checks-card{grid-template-columns:1fr;}}
+  .checks-card > div{background:var(--surface);padding:34px 28px;}
+  .checks-card .num-big{font-family:var(--font-display);font-size:2.1rem;color:var(--mint);margin-bottom:10px;}
+  .checks-card h4{font-size:1.05rem;margin-bottom:8px;font-weight:700;}
+  .checks-card p{margin:0;color:var(--ink-soft);font-size:0.9rem;}
+  .checks-card .cta-cell{display:flex;flex-direction:column;justify-content:center;background:linear-gradient(160deg, var(--mint-dim), var(--surface));}
+  .checks-note{margin-top:16px;font-size:0.8rem;color:var(--ink-soft);}
+
+  /* ---------- CATEGORIES ---------- */
+  .categories{padding:84px 0;}
+  .cat-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:16px;}
+  @media (max-width:860px){.cat-grid{grid-template-columns:repeat(2,1fr);}}
+  @media (max-width:520px){.cat-grid{grid-template-columns:1fr;}}
+  .cat-card{
+    border:1px solid var(--line);border-radius:18px;padding:24px;background:var(--surface);
+    transition:transform .25s, border-color .25s;
+  }
+  .cat-card:hover{transform:translateY(-4px);border-color:var(--mint-dim);}
+  .cat-card .icon{width:34px;height:34px;color:var(--mint);margin-bottom:14px;}
+  .cat-card h4{font-size:0.98rem;margin-bottom:6px;font-weight:700;}
+  .cat-card p{margin:0;font-size:0.86rem;color:var(--ink-soft);}
+
+  /* ---------- REVIEWS ---------- */
+  .reviews{padding:84px 0;background:var(--bg-alt);border-top:1px solid var(--line);border-bottom:1px solid var(--line);}
+  .review-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:22px;}
+  @media (max-width:860px){.review-grid{grid-template-columns:1fr;}}
+  .review-card{border:1px solid var(--line);border-radius:18px;padding:26px;background:var(--surface);}
+  .stars{color:var(--amber);font-size:0.95rem;margin-bottom:14px;letter-spacing:2px;}
+  .review-card p{margin:0 0 16px;color:var(--ink);font-size:0.95rem;font-style:italic;}
+  .review-card cite{font-size:0.84rem;color:var(--ink-soft);font-style:normal;}
+  .reviews-note{margin-top:20px;font-size:0.8rem;color:var(--ink-soft);}
+
+  /* ---------- CONTACT ---------- */
+  .contact{padding:84px 0;}
+  .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;}
+  @media (max-width:860px){.contact-grid{grid-template-columns:1fr;}}
+  .contact-card{border:1px solid var(--line);border-radius:20px;padding:26px;background:var(--surface);margin-bottom:16px;}
+  .contact-card .row{display:flex;align-items:center;gap:12px;}
+  .contact-card svg{width:20px;height:20px;color:var(--mint);flex-shrink:0;}
+  .contact-card .row b{display:block;font-size:1rem;}
+  .contact-card .row span{font-size:0.82rem;color:var(--ink-soft);}
+  .map-placeholder{
+    border:1px dashed var(--line);border-radius:20px;padding:40px 24px;text-align:center;
+    color:var(--ink-soft);font-size:0.9rem;background:
+      repeating-linear-gradient(45deg, rgba(255,255,255,0.02) 0 10px, transparent 10px 20px);
+  }
+
+  /* ---------- FINAL CTA ---------- */
+  .final-cta{padding:90px 0;text-align:center;position:relative;overflow:hidden;}
+  .final-cta h2{font-size:clamp(1.8rem,4vw,2.6rem);margin-bottom:14px;font-weight:800;}
+  .final-cta p{color:var(--ink-soft);max-width:44ch;margin:0 auto 32px;font-size:1.05rem;}
+  .final-ctas{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;}
+
+  /* ---------- FOOTER ---------- */
+  footer.site{background:var(--bg-alt);border-top:1px solid var(--line);padding:56px 0 28px;}
+  .foot-grid{display:grid;grid-template-columns:1.4fr 1fr 1fr;gap:36px;margin-bottom:36px;}
+  @media (max-width:760px){.foot-grid{grid-template-columns:1fr;}}
+  .foot-brand{display:flex;align-items:center;gap:10px;font-family:var(--font-display);font-weight:700;font-size:1.1rem;margin-bottom:10px;}
+  .foot-brand .mark{width:30px;height:30px;}
+  footer.site p{color:var(--ink-soft);font-size:0.9rem;max-width:32ch;margin:0;}
+  .foot-col h5{font-size:0.85rem;color:var(--ink-soft);margin-bottom:12px;font-weight:600;}
+  .foot-col ul{list-style:none;padding:0;margin:0;display:flex;flex-direction:column;gap:9px;}
+  .foot-col a{font-size:0.9rem;color:var(--ink);transition:color .2s;}
+  .foot-col a:hover{color:var(--mint);}
+  .foot-bottom{display:flex;justify-content:space-between;flex-wrap:wrap;gap:10px;padding-top:24px;border-top:1px solid var(--line);font-size:0.8rem;color:var(--ink-soft);}
+  .disclaimer{margin-top:14px;font-size:0.76rem;color:var(--ink-soft);opacity:0.75;line-height:1.5;}
+</style>
+</head>
+<body>
+
+<header class="site">
+  <div class="wrap nav">
+    <div class="brand">
+      <svg class="mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+        <rect width="32" height="32" rx="9" fill="#38D69C"/>
+        <rect x="14" y="7" width="4" height="18" rx="2" fill="#052A1E"/>
+        <rect x="7" y="14" width="18" height="4" rx="2" fill="#052A1E"/>
+      </svg>
+      Parvathi Medical
+    </div>
+    <nav class="nav-links">
+      <a href="#services">Services</a>
+      <a href="#offers">Offers</a>
+      <a href="#order">Order</a>
+      <a href="#essentials">Essentials</a>
+      <a href="#contact">Contact</a>
+    </nav>
+    <a class="nav-cta" href="https://wa.me/919003586632" target="_blank" rel="noopener">
+      <span class="pulse-dot"></span> WhatsApp us
+    </a>
+  </div>
+</header>
+
+<main>
+  <!-- HERO -->
+  <section class="hero">
+    <div class="glow glow-mint"></div>
+    <div class="glow glow-amber"></div>
+    <div class="wrap hero-grid">
+      <div class="reveal in">
+        <div class="eyebrow-line"><span class="pulse-dot"></span> Open daily · 7:00 AM – 10:00 PM · Free home delivery</div>
+        <h1>Your health. <span class="accent">Our priority.</span></h1>
+        <p class="lede">Your trusted local medical store for medicines and everyday healthcare essentials — with easy WhatsApp ordering and doorstep delivery.</p>
+        <div class="badge-row">
+          <span class="badge">★ 4.7 on Google</span>
+          <span class="badge">Trusted medicines</span>
+          <span class="badge">Free health checks</span>
+          <span class="badge">Free home delivery</span>
+          <span class="badge">WhatsApp orders</span>
+        </div>
+        <div class="hero-ctas">
+          <a class="btn-primary" href="https://wa.me/919003586632" target="_blank" rel="noopener">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5.1-1.3C8.5 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18c-1.6 0-3.1-.4-4.4-1.2l-.3-.2-3 .8.8-2.9-.2-.3C4.3 15 4 13.5 4 12c0-4.4 3.6-8 8-8s8 3.6 8 8-3.6 8-8 8z"/></svg>
+            Order on WhatsApp
+          </a>
+          <a class="btn-secondary" href="tel:9003586632">📞 Call now: 90035 86632</a>
+        </div>
+      </div>
+
+      <div class="hero-visual reveal in">
+        <div class="ekg-card">
+          <div class="top-row">
+            <span class="label">Store status</span>
+            <span class="live"><span class="pulse-dot"></span> Live &amp; open</span>
+          </div>
+          <svg viewBox="0 0 320 90" width="100%" height="90">
+            <path d="M0 45 H70 L85 20 L100 70 L115 10 L130 45 H320" fill="none" stroke="rgba(56,214,156,0.18)" stroke-width="3"/>
+            <path id="ekg-path" d="M0 45 H70 L85 20 L100 70 L115 10 L130 45 H320" fill="none" stroke="#38D69C" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+          </svg>
+          <div class="ekg-stats">
+            <div><b>15 min</b><span>Avg. order time</span></div>
+            <div><b>Free</b><span>Home delivery</span></div>
+            <div><b>2</b><span>Free health checks</span></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- HEALTHCARE MADE SIMPLE -->
+  <section class="features" id="services">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="label">Healthcare made simple</div>
+        <h2>Everything you need, right when you need it</h2>
+        <p>Convenient ordering, essential medicines, basic health checks, and home delivery — all from one trusted counter.</p>
+      </div>
+      <div class="feature-grid reveal-stagger reveal">
+        <div class="feature">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></div>
+          <h3>Free BP check</h3>
+          <p>Check your blood pressure with our free basic screening service.</p>
+        </div>
+        <div class="feature">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg></div>
+          <h3>Free blood sugar check</h3>
+          <p>Free blood sugar checking facility available at Parvathi Medical.</p>
+        </div>
+        <div class="feature">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 17V7a2 2 0 012-2h6l6 6v6a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M12 5v6h6"/></svg></div>
+          <h3>Free home delivery</h3>
+          <p>Order from home and enjoy free delivery, subject to service availability.</p>
+        </div>
+        <div class="feature">
+          <div class="icon"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5.1-1.3C8.5 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg></div>
+          <h3>WhatsApp ordering</h3>
+          <p>Send your prescription or medicine list through WhatsApp for easy assistance.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- OFFERS -->
+  <section class="offers" id="offers">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="label">Special offers</div>
+        <h2>Save more on your purchases</h2>
+        <p>Terms &amp; conditions apply — ask our team about today's offers on WhatsApp.</p>
+      </div>
+      <div class="offer-grid reveal-stagger reveal">
+        <div class="offer-card">
+          <div class="ring"></div>
+          <div class="threshold">Buy ₹5,000+</div>
+          <div class="pct">20% off</div>
+          <p class="note">Enjoy more savings on qualifying purchases.</p>
+        </div>
+        <div class="offer-card">
+          <div class="ring"></div>
+          <div class="threshold">Buy ₹2,500+</div>
+          <div class="pct">15% off</div>
+          <p class="note">Get great value on qualifying purchases.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WHY US -->
+  <section class="why">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="label">Why Parvathi Medical</div>
+        <h2>More than a medical store</h2>
+      </div>
+      <div class="why-grid reveal-stagger reveal">
+        <div class="why-item">
+          <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M9 3h6v4a3 3 0 003 3h4v9a2 2 0 01-2 2H4a2 2 0 01-2-2V10a2 2 0 012-2h5V3z"/></svg></div>
+          <div><h4>Trusted medicines</h4><p>Quality medicines and healthcare essentials for your everyday needs.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5.1-1.3C8.5 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg></div>
+          <div><h4>Easy ordering</h4><p>Send your medicine list or prescription through WhatsApp.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 17V7a2 2 0 012-2h6l6 6v6a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M12 5v6h6"/></svg></div>
+          <div><h4>Free home delivery</h4><p>Convenient doorstep delivery where available.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg></div>
+          <div><h4>Free health checks</h4><p>Free BP and blood sugar checking facilities available.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M17 8a5 5 0 00-10 0M5 8v5a7 7 0 0014 0V8M9 21h6"/></svg></div>
+          <div><h4>Friendly service</h4><p>Helpful and convenient service for every customer.</p></div>
+        </div>
+        <div class="why-item">
+          <div class="dot"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg></div>
+          <div><h4>Customer first</h4><p>We aim to make your healthcare experience simple and comfortable.</p></div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ORDER STEPS -->
+  <section class="process" id="order">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="label">How it works</div>
+        <h2>Your medicines are just a WhatsApp away</h2>
+        <p>No need to spend time waiting at the store — send your prescription and we'll take it from there.</p>
+      </div>
+      <div class="steps reveal-stagger reveal">
+        <div class="step">
+          <div class="num">1</div>
+          <h4>Take a photo</h4>
+          <p>Take a clear photo of your prescription or medicine list.</p>
+        </div>
+        <div class="step">
+          <div class="num">2</div>
+          <h4>Send on WhatsApp</h4>
+          <p>Send it to 90035 86632.</p>
+        </div>
+        <div class="step">
+          <div class="num">3</div>
+          <h4>We confirm your order</h4>
+          <p>Our team assists with availability, order details, and delivery.</p>
+        </div>
+        <div class="step">
+          <div class="num">4</div>
+          <h4>Receive your medicines</h4>
+          <p>Choose store pickup or available home delivery.</p>
+        </div>
+      </div>
+      <div class="process-cta reveal">
+        <a class="btn-primary" href="https://wa.me/919003586632" target="_blank" rel="noopener">Order on WhatsApp</a>
+        <small>Prescription medicines are subject to a valid prescription and pharmacist verification.</small>
+      </div>
+    </div>
+  </section>
+
+  <!-- HEALTH CHECKS -->
+  <section class="checks">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="label">Free health checks</div>
+        <h2>Take a moment to check your health</h2>
+      </div>
+      <div class="checks-card reveal">
+        <div>
+          <div class="num-big">🩺</div>
+          <h4>Free BP check</h4>
+          <p>A convenient basic blood pressure screening facility is available at Parvathi Medical.</p>
+        </div>
+        <div>
+          <div class="num-big">🍬</div>
+          <h4>Free blood sugar check</h4>
+          <p>Get a free basic blood sugar screening at our store.</p>
+        </div>
+        <div class="cta-cell">
+          <h4 style="margin-bottom:10px;">Your health matters</h4>
+          <a class="btn-primary" style="align-self:flex-start;" href="tel:9003586632">Visit us today</a>
+        </div>
+      </div>
+      <p class="checks-note">Basic screening services do not replace professional medical diagnosis or medical advice.</p>
+    </div>
+  </section>
+
+  <!-- ESSENTIALS -->
+  <section class="categories" id="essentials">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="label">Healthcare essentials</div>
+        <h2>Everything for your everyday healthcare</h2>
+      </div>
+      <div class="cat-grid reveal-stagger reveal">
+        <div class="cat-card">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M9 3h6v4a3 3 0 003 3h4v9a2 2 0 01-2 2H4a2 2 0 01-2-2V10a2 2 0 012-2h5V3z"/></svg>
+          <h4>Medicines</h4>
+          <p>Everyday prescription and healthcare medicines.</p>
+        </div>
+        <div class="cat-card">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 2l2.5 5.5L20 9l-4 4 1 6-5-3-5 3 1-6-4-4 5.5-1.5z"/></svg>
+          <h4>First aid</h4>
+          <p>Essential first-aid and healthcare products.</p>
+        </div>
+        <div class="cat-card">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><circle cx="12" cy="8" r="4"/><path d="M6 21v-2a6 6 0 0112 0v2"/></svg>
+          <h4>Baby care</h4>
+          <p>Everyday baby-care essentials.</p>
+        </div>
+        <div class="cat-card">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M12 3c-1.5 2-3 4.5-3 7a3 3 0 006 0c0-2.5-1.5-5-3-7z"/><path d="M6 21h12"/></svg>
+          <h4>Personal care</h4>
+          <p>Personal hygiene and personal-care products.</p>
+        </div>
+        <div class="cat-card">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M20.8 4.6a5.5 5.5 0 00-7.8 0L12 5.6l-1-1a5.5 5.5 0 00-7.8 7.8l1 1L12 21l7.8-7.6 1-1a5.5 5.5 0 000-7.8z"/></svg>
+          <h4>Wellness</h4>
+          <p>Selected healthcare and wellness essentials.</p>
+        </div>
+        <div class="cat-card">
+          <svg class="icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.7"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+          <h4>Health monitoring</h4>
+          <p>Basic health monitoring and checking services.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- REVIEWS -->
+  <section class="reviews">
+    <div class="wrap">
+      <div class="section-head reveal">
+        <div class="label">Customer reviews · 4.7★ on Google</div>
+        <h2>What our customers say</h2>
+      </div>
+      <div class="review-grid reveal-stagger reveal">
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>"Very good service at Parvathi Medicals. I was looking for a tablet that was not available nearby, but they arranged it for me within 5 hours. They have almost all types of medicines and respond quickly to customers. Really helpful and reliable medical shop. Highly recommended!"</p>
+          <cite>— Verified Google review</cite>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>"Add your verified customer review here."</p>
+          <cite>— Customer name</cite>
+        </div>
+        <div class="review-card">
+          <div class="stars">★★★★★</div>
+          <p>"Add your verified customer review here."</p>
+          <cite>— Customer name</cite>
+        </div>
+      </div>
+      <p class="reviews-note">Only publish genuine customer reviews.</p>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section class="contact" id="contact">
+    <div class="wrap contact-grid">
+      <div class="reveal">
+        <div class="section-head" style="margin-bottom:24px;">
+          <div class="label">Contact us</div>
+          <h2>Need medicines?</h2>
+          <p>We're just one WhatsApp message away.</p>
+        </div>
+        <div class="contact-card">
+          <div class="row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M12 2C6.5 2 2 6.5 2 12c0 1.9.5 3.6 1.4 5.1L2 22l5.1-1.3C8.5 21.5 10.2 22 12 22c5.5 0 10-4.5 10-10S17.5 2 12 2z"/></svg>
+            <div><b>WhatsApp / Call</b><span>90035 86632</span></div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M3 12h4l3 8 4-16 3 8h4"/></svg>
+            <div><b>Free BP &amp; blood sugar check</b><span>Available at Parvathi Medical</span></div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M4 17V7a2 2 0 012-2h6l6 6v6a2 2 0 01-2 2H6a2 2 0 01-2-2z"/><path d="M12 5v6h6"/></svg>
+            <div><b>Free home delivery</b><span>Subject to delivery area &amp; conditions</span></div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><path d="M21 10c0 7-9 12-9 12s-9-5-9-12a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg>
+            <div><b>Visit us</b><span>87/42, Thandrampattu Rd, Samuthiram, Nallavanpalayam, Tiruvannamalai, Tamil Nadu 606603</span></div>
+          </div>
+        </div>
+        <div class="contact-card">
+          <div class="row">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8"><circle cx="12" cy="12" r="9"/><path d="M12 7v5l3 3"/></svg>
+            <div><b>Store hours</b><span>Open daily, 7:00 AM – 10:00 PM</span></div>
+          </div>
+        </div>
+        <a class="btn-primary" href="https://wa.me/919003586632" target="_blank" rel="noopener">Order on WhatsApp</a>
+      </div>
+      <div class="reveal">
+        <div class="map-placeholder">
+          📍 87/42, Thandrampattu Rd, Samuthiram, Nallavanpalayam,<br>Tiruvannamalai, Tamil Nadu 606603<br><br>
+          <a class="btn-secondary" style="display:inline-flex;margin-top:6px;" href="https://www.google.com/maps/place/Parvathi+Medical/@12.2121701,79.0510514,17z/data=!3m1!4b1!4m6!3m5!1s0x3bacbf19a684d073:0xe4b20f3ca5a19fbf!8m2!3d12.2121701!4d79.0536263!16s%2Fg%2F11xvx7npdv" target="_blank" rel="noopener">Get directions</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FINAL CTA -->
+  <section class="final-cta">
+    <div class="glow glow-mint" style="left:50%;top:-100px;right:auto;transform:translateX(-50%);"></div>
+    <div class="wrap reveal" style="position:relative;z-index:1;">
+      <h2>Medicines made easy.</h2>
+      <p>Order your medicines, get convenient healthcare services, and enjoy easy WhatsApp ordering with Parvathi Medical.</p>
+      <div class="final-ctas">
+        <a class="btn-primary" href="https://wa.me/919003586632" target="_blank" rel="noopener">Order on WhatsApp — 90035 86632</a>
+        <a class="btn-secondary" href="tel:9003586632">Call now</a>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="site">
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <div class="foot-brand">
+          <svg class="mark" viewBox="0 0 32 32" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <rect width="32" height="32" rx="9" fill="#38D69C"/>
+            <rect x="14" y="7" width="4" height="18" rx="2" fill="#052A1E"/>
+            <rect x="7" y="14" width="18" height="4" rx="2" fill="#052A1E"/>
+          </svg>
+          Parvathi Medical
+        </div>
+        <p>Your health. Our priority. Quality medicines, free BP &amp; sugar checks, and free home delivery — one WhatsApp message away.</p>
+        <p class="disclaimer">Medical disclaimer: information on this website is for general purposes only and is not a substitute for professional medical advice, diagnosis, or treatment.</p>
+      </div>
+      <div class="foot-col">
+        <h5>Quick links</h5>
+        <ul>
+          <li><a href="#services">Services</a></li>
+          <li><a href="#offers">Offers</a></li>
+          <li><a href="#order">Order medicines</a></li>
+          <li><a href="#contact">Contact</a></li>
+        </ul>
+      </div>
+      <div class="foot-col">
+        <h5>Reach us</h5>
+        <ul>
+          <li><a href="tel:9003586632">📞 90035 86632</a></li>
+          <li><a href="https://wa.me/919003586632" target="_blank" rel="noopener">📲 WhatsApp orders</a></li>
+          <li><a href="#contact">📍 Store address</a></li>
+        </ul>
+      </div>
+    </div>
+    <div class="foot-bottom">
+      <span>© 2026 Parvathi Medical. All rights reserved.</span>
+      <span>Tiruvannamalai, Tamil Nadu</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+  (function(){
+    var els = document.querySelectorAll('.reveal:not(.in), .reveal-stagger:not(.in)');
+    if(!('IntersectionObserver' in window)){
+      els.forEach(function(el){ el.classList.add('in'); });
+      return;
+    }
+    var io = new IntersectionObserver(function(entries){
+      entries.forEach(function(entry){
+        if(entry.isIntersecting){
+          entry.target.classList.add('in');
+          io.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+    els.forEach(function(el){ io.observe(el); });
+  })();
+</script>
+
+</body>
+</html>
